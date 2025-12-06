@@ -1,10 +1,7 @@
-import { type } from "@testing-library/user-event/dist/type";
-import React, {useState} from "react";
-
-
+import React, { useState } from "react";
 
 function PizzaBlock({ title, price, image, sizes, types }) {
-  const typeName = ['тонкое', 'традиционное'];
+  const typeName = ["тонкое", "традиционное"];
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
 
@@ -14,7 +11,6 @@ function PizzaBlock({ title, price, image, sizes, types }) {
     pizzaSetCount(pizzaCount + 1);
   };
 
-
   return (
     <div className="pizza-block">
       <img className="pizza-block__image" src={image} alt="Pizza" />
@@ -22,20 +18,33 @@ function PizzaBlock({ title, price, image, sizes, types }) {
       <div className="pizza-block__selector">
         <ul>
           {types.map((typeId) => (
-            <li key={typeId} onClick={() => setActiveType(typeId)} className={activeType === typeId ? 'active' : ''}>{typeName[typeId]}</li>
+            <li
+              key={typeId}
+              onClick={() => setActiveType(typeId)}
+              className={activeType === typeId ? "active" : ""}
+            >
+              {typeName[typeId]}
+            </li>
           ))}
         </ul>
         <ul>
-         {sizes.map((size, i) => (
-            <li key={size} onClick={() => setActiveSize(i)} className={activeSize === i ? 'active' : ''}>{size} см. </li>
-
-
-         ))}
+          {sizes.map((size, i) => (
+            <li
+              key={size}
+              onClick={() => setActiveSize(i)}
+              className={activeSize === i ? "active" : ""}
+            >
+              {size} см.{" "}
+            </li>
+          ))}
         </ul>
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price"> {price} ₽</div>
-        <button onClick={onClickPizza} className="button button--outline button--add">
+        <button
+          onClick={onClickPizza}
+          className="button button--outline button--add"
+        >
           <svg
             width="12"
             height="12"

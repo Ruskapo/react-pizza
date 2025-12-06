@@ -37,7 +37,9 @@ function Sort() {
                 key={i}
                 onClick={() => onClickSort(i)}
                 className={selected === i ? "active" : ""}
-              >{name}</li>
+              >
+                {name}
+              </li>
             ))}
           </ul>
         </div>
