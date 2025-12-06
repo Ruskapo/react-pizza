@@ -20,6 +20,7 @@ function App() {
             {
               pizzas.map((objPizz) => (
                 <PizzaBlock
+                 key={objPizz.id}
                  title = {objPizz.title}
                  price = {objPizz.price}
                  image = {objPizz.imageUrl}
