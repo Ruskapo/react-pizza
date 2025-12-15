@@ -1,6 +1,6 @@
 .root {
-    position: relative;
-    left: -120px;
+  position: relative;
+  left: -120px;
 }
 
 .input {
@@ -13,16 +13,29 @@
   transition: all 0.15s ease-in-out;
 
   &:focus {
-     border: 1px solid rgba(0, 0, 0, 0.2);
-     width: 450px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    width: 450px;
   }
 }
 
 .icon {
-    width: 22px;
-    height: 22px;
-    opacity: 0.3;
-    position: absolute;
-    left: 14px;
-    top: 12px;
+  width: 22px;
+  height: 22px;
+  opacity: 0.3;
+  position: absolute;
+  left: 14px;
+  top: 12px;
+}
+
+.clearIcon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.3;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
 }
