@@ -1,13 +1,14 @@
 import React from "react";
 
-
+import { context } from "../App";
 import Categories from "../components/Categories";
+import Pagination from "../components/Pagination";
 import PizzaBlock from "../components/PizzaBlock/";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Sort from "../components/Sort";
-import Pagination from "../components/Pagination";
 
-const Home = ({ searchValue }) => {
+const Home = () => {
+  const { searchValue} = React.useContext(context);
   const [itemsPizza, setItemsPizza] = React.useState([]);
   const [isLoading, setLoading] = React.useState(true);
   const [categoryId, setCategoryId] = React.useState(0);
@@ -65,7 +66,7 @@ const Home = ({ searchValue }) => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? sceletons : pizzas}</div>
-      <Pagination onChangePage={number => setCurrentPage(number)}  />
+      <Pagination onChangePage={(number) => setCurrentPage(number)} />
     </div>
   );
 };
