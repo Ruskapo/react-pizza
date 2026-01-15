@@ -32,6 +32,7 @@ const Home = () => {
       .then((data) => {
         if (Array.isArray(data)) {
           setItemsPizza(data);
+          console.log();
         } else setItemsPizza([]);
 
         setLoading(false);
