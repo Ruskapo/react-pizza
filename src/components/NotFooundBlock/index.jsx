@@ -1,5 +1,6 @@
 import styles from "./NotFoundBlock.module.scss";
 
+// Компонент для отображения страницы "Не найдено"
 const NotFoundBlock = () => {
   return (
     <div className={styles.root}>

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// Начальное состояние фильтров
 const initialState = {
   categoryId: 0,
   currentPage: 1,
@@ -9,6 +10,7 @@ const initialState = {
   },
 };
 
+// Слайс для фильтров
 export const filterSlice = createSlice({
   name: "filter",
   initialState,
@@ -19,12 +21,18 @@ export const filterSlice = createSlice({
     setSort(state, action) {
       state.sort = action.payload;
     },
-     setCurrentPage(state, action) {
+    setCurrentPage(state, action) {
       state.currentPage = action.payload;
-    }
+    },
+    setFilters(state, action) {
+      state.currentPage = Number(action.payload.currentPage);
+      state.categoryId = Number(action.payload.categoryId);
+      state.sort = action.payload.sort;
+    },
   },
 });
 
-export const { setCategoryId, setSort, setCurrentPage } = filterSlice.actions;
+// Экспорт действий и редьюсера
+export const { setCategoryId, setSort, setCurrentPage, setFilters } = filterSlice.actions;
 
 export default filterSlice.reducer;
