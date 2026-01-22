@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+// Компонент страницы корзины
 const Cart = () => {
   return (
     <div className="container container--cart">

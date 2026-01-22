@@ -2,6 +2,7 @@ import React from 'react'
 import ReactPaginate from "react-paginate";
 import styles from './pagination.module.scss'
 
+// Компонент пагинации для навигации по страницам
 const Pagination = ({ currentPage, onChangePage}) => {
   return (
     <ReactPaginate

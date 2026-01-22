@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+// Компонент блока пиццы с возможностью выбора типа, размера и добавления в корзину
 function PizzaBlock({ title, price, image, sizes, types }) {
   const typeName = ["тонкое", "традиционное"];
   const [activeType, setActiveType] = React.useState(0);

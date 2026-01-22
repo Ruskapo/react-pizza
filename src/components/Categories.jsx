@@ -1,3 +1,4 @@
+// Компонент для отображения категорий пиццы
 function Categories({ value, onClickCategory }) {
   const categories = [
     "Все",

@@ -1,5 +1,6 @@
 import ContentLoader from "react-content-loader";
 
+// Компонент скелетона для отображения загрузки пиццы
 const Skeleton = () => (
   <ContentLoader
     className="pizza-block"

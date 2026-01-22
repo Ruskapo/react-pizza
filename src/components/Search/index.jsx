@@ -4,6 +4,7 @@ import { context } from "../../App";
 
 import styles from "./search.module.scss";
 
+// Компонент поиска
 const Search = () => {
   const [value, setValue] = React.useState("");
   const { setSearchValue } = React.useContext(context);
@@ -17,7 +18,7 @@ const Search = () => {
 
   const updateSearchValue = React.useCallback(
     debounce((str) => setSearchValue(str), 300),
-    []
+    [],
   );
 
   const onChangeInput = (event) => {
