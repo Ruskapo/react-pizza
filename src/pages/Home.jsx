@@ -1,5 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+
 
 import { context } from "../App";
 import Categories from "../components/Categories";
@@ -29,19 +31,26 @@ const Home = () => {
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    fetch(
-      `https://69344d6a4090fe3bf01f91ec.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
-    )
-      .then((Response) => Response.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setItemsPizza(data);
-          console.log();
-        } else setItemsPizza([]);
+    // fetch(
+    //   `https://69344d6a4090fe3bf01f91ec.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
+    // )
+    //   .then((Response) => Response.json())
+    //   .then((data) => {
+    //     if (Array.isArray(data)) {
+    //       setItemsPizza(data);
+    //       console.log();
+    //     } else setItemsPizza([]);
 
-        setLoading(false);
-      });
+    //     setLoading(false);
+    //   });
 
+  axios.get(`https://69344d6a4090fe3bf01f91ec.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
+  .then((response) => {
+    setItemsPizza(response.data); 
+    setLoading(false);
+  });
+    
+    
     window.scrollTo(0, 0);
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
