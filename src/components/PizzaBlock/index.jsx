@@ -24,7 +24,7 @@ function PizzaBlock({ id, title, price, image, sizes, types }) {
       id,
       title,
       price,
-      image,
+      imageUrl: image,
       type: typeName[activeType],
       size: sizes[activeSize],
       count: 0,
