@@ -18,16 +18,24 @@ import {
 
 // Главная страница
 const Home = () => {
+  // Инициализация навигации и диспетчера Redux
   const navigate = useNavigate();
+  // Инициализация диспетчера Redux
   const dispatch = useDispatch();
+  // Рефы для отслеживания первого рендера и поиска в URL
   const isSearch = React.useRef(false);
+  // Реф для отслеживания монтирования компонента
   const isMounted = React.useRef(false);
+  // Получение данных фильтров из состояния Redux
   const { categoryId, sort, currentPage } = useSelector(
     (state) => state.filter,
   );
 
+  // Получение значения поиска из контекста
   const { searchValue } = React.useContext(context);
+  // Локальное состояние для пицц и состояния загрузки
   const [itemsPizza, setItemsPizza] = React.useState([]);
+  // Состояние загрузки
   const [isLoading, setLoading] = React.useState(true);
 
   // Изменение категории
@@ -107,6 +115,7 @@ const Home = () => {
   const pizzas = itemsPizza.map((objPizz) => (
     <PizzaBlock
       key={objPizz.id}
+      id={objPizz.id}
       title={objPizz.title}
       price={objPizz.price}
       image={objPizz.imageUrl}

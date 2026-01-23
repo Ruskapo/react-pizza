@@ -16,8 +16,8 @@ export const list = [
 function Sort() {
   const dispatch = useDispatch();
   const sort = useSelector((state) => state.filter.sort);
-
   const [openSort, setOpenSort] = React.useState(false);
+  const sortRef = React.useRef(null);
 
   // Выбор варианта сортировки
   const onClickListItem = (obj) => {
@@ -25,8 +25,24 @@ function Sort() {
     setOpenSort(false);
   };
 
+  // Закрытие выпадающего списка при клике вне его области
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sortRef.current && !sortRef.current.contains(event.target)) {
+        setOpenSort(false);
+      }
+    };
+
+    document.body.addEventListener("click", handleClickOutside);
+
+    // Очистка обработчика
+    return () => {
+      document.body.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"

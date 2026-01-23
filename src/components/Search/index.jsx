@@ -6,21 +6,29 @@ import styles from "./search.module.scss";
 
 // Компонент поиска
 const Search = () => {
+  // Локальное состояние для значения инпута
   const [value, setValue] = React.useState("");
+  
+  // Получение функции установки значения поиска из контекста
   const { setSearchValue } = React.useContext(context);
+
+  // Ссылка на элемент инпута
   const inputRef = React.useRef();
 
+  // Обработчик очистки поля поиска
   const onClickClear = () => {
     setSearchValue("");
     setValue("");
     inputRef.current.focus();
   };
 
+  // Функция обновления значения поиска с дебаунсом
   const updateSearchValue = React.useCallback(
     debounce((str) => setSearchValue(str), 300),
     [],
   );
 
+  // Обработчик изменения значения инпута
   const onChangeInput = (event) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value);

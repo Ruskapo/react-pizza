@@ -15,15 +15,19 @@ export const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
+    // Установка категории
     setCategoryId(state, action) {
       state.categoryId = action.payload;
     },
+    // Установка сортировки
     setSort(state, action) {
       state.sort = action.payload;
     },
+    // Установка текущей страницы
     setCurrentPage(state, action) {
       state.currentPage = action.payload;
     },
+    // Установка нескольких фильтров одновременно
     setFilters(state, action) {
       state.currentPage = Number(action.payload.currentPage);
       state.categoryId = Number(action.payload.categoryId);
