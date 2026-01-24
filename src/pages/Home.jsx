@@ -3,8 +3,10 @@ import qs from "qs";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import { setItems } from "../redux/slices/PizzaSlice";
 import { context } from "../App";
+
+
 import Categories from "../components/Categories";
 import Pagination from "../components/Pagination";
 import PizzaBlock from "../components/PizzaBlock/";
@@ -26,15 +28,18 @@ const Home = () => {
   const isSearch = React.useRef(false);
   // Реф для отслеживания монтирования компонента
   const isMounted = React.useRef(false);
+   const itemsPizza = useSelector(
+    (state) => state.pizza.items,
+  );
   // Получение данных фильтров из состояния Redux
   const { categoryId, sort, currentPage } = useSelector(
     (state) => state.filter,
   );
+  
 
   // Получение значения поиска из контекста
   const { searchValue } = React.useContext(context);
-  // Локальное состояние для пицц и состояния загрузки
-  const [itemsPizza, setItemsPizza] = React.useState([]);
+  
   // Состояние загрузки
   const [isLoading, setLoading] = React.useState(true);
 
@@ -49,28 +54,23 @@ const Home = () => {
   };
 
   // Получение пицц с сервера
-  const fetchPizzas = () => {
+  const fetchPizzas = async () => {
     setLoading(true);
     const order = sort.sortProperty.includes("-") ? "asc" : "desc";
     const sortBy = sort.sortProperty.replace("-", "");
     const category = categoryId > 0 ? `&category=${categoryId}` : "";
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    axios
-      .get(
+    try {
+      const {data} = await axios.get(
         `https://69344d6a4090fe3bf01f91ec.mockapi.io/items?page=${currentPage}&limit=4${category}&sortBy=${sortBy}&order=${order}${search}`,
-      )
-      .then((response) => {
-        setItemsPizza(response.data);
-      })
-      .catch((err) => {
-        if (err?.response?.status === 404) {
-          setItemsPizza([]);
-        } else {
-          console.log(err);
-        }
-      })
-      .finally(() => setLoading(false));
+      );
+      dispatch(setItems(data));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Получаем параметры из URL при первом рендере
@@ -92,9 +92,9 @@ const Home = () => {
   // Ререндер пицц при изменении категорий, сортировки, поиска и страницы
   React.useEffect(() => {
     window.scrollTo(0, 0);
-    if (!isSearch.current) {
-      fetchPizzas();
-    }
+    // if (!isSearch.current) {
+    fetchPizzas();
+    // }
     isSearch.current = false;
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
