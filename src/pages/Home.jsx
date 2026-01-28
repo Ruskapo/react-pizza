@@ -1,11 +1,9 @@
-import axios from "axios";
 import qs from "qs";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setItems } from "../redux/slices/PizzaSlice";
 import { context } from "../App";
-
+import { fetchPizzas } from "../redux/slices/PizzaSlice";
 
 import Categories from "../components/Categories";
 import Pagination from "../components/Pagination";
@@ -28,20 +26,15 @@ const Home = () => {
   const isSearch = React.useRef(false);
   // Реф для отслеживания монтирования компонента
   const isMounted = React.useRef(false);
-   const itemsPizza = useSelector(
-    (state) => state.pizza.items,
-  );
+  // Получение данных пицц из состояния Redux
+  const { items: itemsPizza, status } = useSelector((state) => state.pizza);
   // Получение данных фильтров из состояния Redux
   const { categoryId, sort, currentPage } = useSelector(
     (state) => state.filter,
   );
-  
 
   // Получение значения поиска из контекста
   const { searchValue } = React.useContext(context);
-  
-  // Состояние загрузки
-  const [isLoading, setLoading] = React.useState(true);
 
   // Изменение категории
   const onChangeCategory = (id) => {
@@ -54,23 +47,26 @@ const Home = () => {
   };
 
   // Получение пицц с сервера
-  const fetchPizzas = async () => {
-    setLoading(true);
+  const getPizzas = async () => {
+    // Формирование параметров запроса
     const order = sort.sortProperty.includes("-") ? "asc" : "desc";
+    // Удаление минуса из свойства сортировки
     const sortBy = sort.sortProperty.replace("-", "");
+    // Категория
     const category = categoryId > 0 ? `&category=${categoryId}` : "";
+    // Поиск
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    try {
-      const {data} = await axios.get(
-        `https://69344d6a4090fe3bf01f91ec.mockapi.io/items?page=${currentPage}&limit=4${category}&sortBy=${sortBy}&order=${order}${search}`,
-      );
-      dispatch(setItems(data));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    // Диспетчеризация асинхронного действия для получения пицц
+    dispatch(
+      fetchPizzas({
+        order,
+        sortBy,
+        category,
+        search,
+        currentPage,
+      }),
+    );
   };
 
   // Получаем параметры из URL при первом рендере
@@ -93,8 +89,8 @@ const Home = () => {
   React.useEffect(() => {
     window.scrollTo(0, 0);
     // if (!isSearch.current) {
-    fetchPizzas();
-    // }
+    getPizzas();
+    //}
     isSearch.current = false;
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
@@ -136,7 +132,16 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoading ? sceletons : pizzas}</div>
+      {status === "error" ? (
+        <div className="content__error-info">
+          <h2>Произошла ошибка 😕</h2>
+        </div>
+      ) : (
+        <div className="content__items">
+          {status === "loading" ? sceletons : pizzas}
+        </div>
+      )}
+
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );
