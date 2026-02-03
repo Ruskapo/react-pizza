@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // Начальное состояние фильтров
 const initialState = {
+  searchValue: "",
   categoryId: 0,
   currentPage: 1,
   sort: {
@@ -18,6 +19,10 @@ export const filterSlice = createSlice({
     // Установка категории
     setCategoryId(state, action) {
       state.categoryId = action.payload;
+    },
+    // Установка значения поиска
+     setSearchValue(state, action) {
+      state.searchValue = action.payload;
     },
     // Установка сортировки
     setSort(state, action) {
@@ -36,7 +41,12 @@ export const filterSlice = createSlice({
   },
 });
 
+// Селекторы для получения данных из состояния
+export const selectorFilter = (state) => state.filter;
+export const selectorSort = (state) => state.filter.sort;
+
 // Экспорт действий и редьюсера
-export const { setCategoryId, setSort, setCurrentPage, setFilters } = filterSlice.actions;
+export const { setCategoryId, setSort, setCurrentPage, setFilters, setSearchValue } =
+  filterSlice.actions;
 
 export default filterSlice.reducer;

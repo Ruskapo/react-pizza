@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSort } from "../redux/slices/filterSlice";
+import { selectorSort } from "../redux/slices/filterSlice";
 
 // Список вариантов сортировки
 export const list = [
@@ -15,7 +16,7 @@ export const list = [
 // Компонент сортировки
 function Sort() {
   const dispatch = useDispatch();
-  const sort = useSelector((state) => state.filter.sort);
+  const sort = useSelector(selectorSort)
   const [openSort, setOpenSort] = React.useState(false);
   const sortRef = React.useRef(null);
 

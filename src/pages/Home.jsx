@@ -2,8 +2,8 @@ import qs from "qs";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { context } from "../App";
-import { fetchPizzas } from "../redux/slices/PizzaSlice";
+import { fetchPizzas, selectPizzaData } from "../redux/slices/PizzaSlice";
+import { selectorFilter } from "../redux/slices/filterSlice";
 
 import Categories from "../components/Categories";
 import Pagination from "../components/Pagination";
@@ -27,14 +27,9 @@ const Home = () => {
   // Реф для отслеживания монтирования компонента
   const isMounted = React.useRef(false);
   // Получение данных пицц из состояния Redux
-  const { items: itemsPizza, status } = useSelector((state) => state.pizza);
-  // Получение данных фильтров из состояния Redux
-  const { categoryId, sort, currentPage } = useSelector(
-    (state) => state.filter,
-  );
-
-  // Получение значения поиска из контекста
-  const { searchValue } = React.useContext(context);
+  const { items: itemsPizza, status } = useSelector(selectPizzaData);
+  const { categoryId, sort, currentPage, searchValue } =
+    useSelector(selectorFilter);
 
   // Изменение категории
   const onChangeCategory = (id) => {
@@ -105,7 +100,7 @@ const Home = () => {
       navigate(`?${queryString}`);
     }
     isMounted.current = true;
-  }, [categoryId, sort.sortProperty, currentPage]);
+  }, [categoryId, sort.sortProperty, currentPage, navigate]);
 
   // Отрисовка пицц
   const pizzas = itemsPizza.map((objPizz) => (

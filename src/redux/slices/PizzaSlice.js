@@ -4,7 +4,7 @@ import axios from "axios";
 // Асинхронный thunk для получения данных о пиццах
 export const fetchPizzas = createAsyncThunk(
   "pizza/fetchPizzasStatus",
-  async (params) => {
+  async (params, thunkAPI) => {
     const { order, sortBy, category, search, currentPage } = params;
     const { data } = await axios.get(
       `https://69344d6a4090fe3bf01f91ec.mockapi.io/items?page=${currentPage}&limit=4${category}&sortBy=${sortBy}&order=${order}${search}`,
@@ -47,6 +47,9 @@ const pizzaSlice = createSlice({
       });
   },
 });
+
+// Селектор для получения данных о пиццах из состояния
+export const selectPizzaData = (state) => state.pizza;
 
 // Экспорт действий и редьюсера
 export const { setItems } = pizzaSlice.actions;

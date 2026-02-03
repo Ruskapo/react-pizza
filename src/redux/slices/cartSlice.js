@@ -7,7 +7,7 @@ const initialState = {
 };
 
 // Слайс для корзины
- const cartSlice = createSlice({
+const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
@@ -48,6 +48,11 @@ const initialState = {
     },
   },
 });
+
+// Селектор для получения данных корзины из состояния Redux
+export const selectorCart = (state) => state.cart;
+export const selectorCartItemById = (id) => (state) =>
+  state.cart.items.find((obj) => obj.id === id);
 
 // Экспорт действий и редьюсера
 export const { addItem, removeItem, minusItem, clearItems } = cartSlice.actions;

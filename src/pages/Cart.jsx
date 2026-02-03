@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem";
-import { clearItems } from "../redux/slices/cartSlice";
+import { clearItems, selectorCart } from "../redux/slices/cartSlice";
 import CartEmpty from "../components/CartEmpty";
 
 // Компонент страницы корзины
@@ -10,7 +10,7 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   // Получение данных корзины из состояния Redux
-  const { items, totalPrice } = useSelector((state) => state.cart);
+  const { items, totalPrice } = useSelector(selectorCart);
 
   // Вычисление общего количества товаров в корзине
    const totalCount = items.reduce((sum, item) => sum + item.count, 0);

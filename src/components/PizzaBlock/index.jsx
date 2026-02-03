@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../../redux/slices/cartSlice";
+import { addItem, selectorCartItemById } from "../../redux/slices/cartSlice";
 
 const typeName = ["тонкое", "традиционное"];
 
@@ -12,10 +12,9 @@ function PizzaBlock({ id, title, price, image, sizes, types }) {
   const [activeSize, setActiveSize] = React.useState(0);
   // Подключение к Redux для управления состоянием корзины
   const dispatch = useDispatch();
-  // Получение информации о количестве добавленных пицц данного типа из корзины
-  const cartItem = useSelector((state) =>
-    state.cart.items.find((obj) => obj.id === id));
- // Определение количества добавленных пицц данного типа
+  // Получение данных о конкретном товаре в корзине по ID
+  const cartItem = useSelector(selectorCartItemById(id));
+  // Определение количества добавленных пицц данного типа
   const addedCount = cartItem ? cartItem.count : 0;
 
   // Функция обработки добавления пиццы в корзину
@@ -32,8 +31,6 @@ function PizzaBlock({ id, title, price, image, sizes, types }) {
     dispatch(addItem(item));
   };
 
-  
-  
   return (
     <div className="pizza-block-wrapper">
       <div className="pizza-block">

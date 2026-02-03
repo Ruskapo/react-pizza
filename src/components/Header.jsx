@@ -1,11 +1,12 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { selectorCart } from "../redux/slices/cartSlice";
 import Search from "./Search";
 
 // Компонент шапки сайта с логотипом, поиском и корзиной
 function Header() {
   // Получение данных корзины из состояния Redux
-  const { items, totalPrice } = useSelector((state) => state.cart);
+  const { items, totalPrice } = useSelector(selectorCart);
   
   // Вычисление общего количества товаров в корзине
   const totalCount = items.reduce((sum, item) => sum + item.count, 0);

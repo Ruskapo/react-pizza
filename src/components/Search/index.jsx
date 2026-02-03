@@ -1,30 +1,31 @@
 import debounce from "lodash.debounce";
 import React from "react";
-import { context } from "../../App";
-
 import styles from "./search.module.scss";
+
+import { useDispatch } from "react-redux";
+import { setSearchValue } from "../../redux/slices/filterSlice";
 
 // Компонент поиска
 const Search = () => {
+  // Инициализация диспетчера Redux
+  const dispatch = useDispatch();
   // Локальное состояние для значения инпута
   const [value, setValue] = React.useState("");
-  
-  // Получение функции установки значения поиска из контекста
-  const { setSearchValue } = React.useContext(context);
-
   // Ссылка на элемент инпута
   const inputRef = React.useRef();
 
   // Обработчик очистки поля поиска
   const onClickClear = () => {
-    setSearchValue("");
+   dispatch(setSearchValue(''));
     setValue("");
     inputRef.current.focus();
   };
 
   // Функция обновления значения поиска с дебаунсом
   const updateSearchValue = React.useCallback(
-    debounce((str) => setSearchValue(str), 300),
+    debounce((str) => {
+      dispatch(setSearchValue(str));
+    }, 150),
     [],
   );
 
