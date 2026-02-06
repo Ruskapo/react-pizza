@@ -1,11 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { addItem, selectorCartItemById } from "../../redux/slices/cartSlice";
 
 const typeName = ["тонкое", "традиционное"];
 
 // Компонент блока пиццы с возможностью выбора типа, размера и добавления в корзину
 function PizzaBlock({ id, title, price, image, sizes, types }) {
+  // Инициализация навигации
+  const navigate = useNavigate();
   // Состояния для выбранного типа и размера пиццы
   const [activeType, setActiveType] = React.useState(0);
   // Состояния для выбранного размера пиццы
@@ -34,7 +37,12 @@ function PizzaBlock({ id, title, price, image, sizes, types }) {
   return (
     <div className="pizza-block-wrapper">
       <div className="pizza-block">
-        <img className="pizza-block__image" src={image} alt="Pizza" />
+        <img
+          className="pizza-block__image"
+          src={image}
+          alt="Pizza"
+          onClick={() => navigate(`/pizza/${id}`)}
+        />
         <h4 className="pizza-block__title"> {title} </h4>
         <div className="pizza-block__selector">
           <ul>

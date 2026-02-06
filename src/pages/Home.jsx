@@ -1,7 +1,7 @@
 import qs from "qs";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { fetchPizzas, selectPizzaData } from "../redux/slices/PizzaSlice";
 import { selectorFilter } from "../redux/slices/filterSlice";
 
@@ -104,17 +104,15 @@ const Home = () => {
 
   // Отрисовка пицц
   const pizzas = itemsPizza.map((objPizz) => (
-    <Link to={`/pizza/${objPizz.id}`} key={objPizz.id}>
-      {" "}
-      <PizzaBlock
-        id={objPizz.id}
-        title={objPizz.title}
-        price={objPizz.price}
-        image={objPizz.imageUrl}
-        sizes={objPizz.sizes}
-        types={objPizz.types}
-      />
-    </Link>
+    <PizzaBlock
+      key={objPizz.id}
+      id={objPizz.id}
+      title={objPizz.title}
+      price={objPizz.price}
+      image={objPizz.imageUrl}
+      sizes={objPizz.sizes}
+      types={objPizz.types}
+    />
   ));
 
   // Отрисовка скелетов

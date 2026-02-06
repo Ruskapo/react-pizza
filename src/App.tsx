@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
+import Layout from "./layouts/Layout";
 import Cart from "./pages/Cart";
 import FullPizza from "./pages/FullPizza";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
-import Layout from "./layouts/Layout";
 import "./scss/app.scss";
 
 function App() {

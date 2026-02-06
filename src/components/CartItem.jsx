@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
 import { addItem, minusItem, removeItem } from "../redux/slices/cartSlice";
- 
 
 // Компонент элемента корзины
 const CartItem = ({ id, title, type, price, size, count, imageUrl }) => {
@@ -15,9 +14,11 @@ const CartItem = ({ id, title, type, price, size, count, imageUrl }) => {
 
   // Обработчик уменьшения количества товара
   const onClickMinus = () => {
-    dispatch(minusItem(id));
+    if (count > 0) {
+      dispatch(minusItem(id));
+    }
   };
-  
+
   // Обработчик удаления товара из корзины
   const onClickRemove = () => {
     if (window.confirm("Вы действительно хотите удалить товар?")) {

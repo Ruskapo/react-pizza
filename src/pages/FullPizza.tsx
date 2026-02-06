@@ -3,9 +3,13 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 // Полная информация о пицце
-const FullPizza = () => {
+const FullPizza: React.FC = () => {
   // Состояние для хранения данных пиццы
-  const [pizza, setPizza] = React.useState();
+  const [pizza, setPizza] = React.useState<{
+    imageUrl: string;
+    title: string;
+    price: number;
+  }>();
   // Получение параметра id из URL
   const { id } = useParams();
   // Навигация для перенаправления
@@ -28,12 +32,12 @@ const FullPizza = () => {
   }, []);
 
   if (!pizza) {
-    return <>'Загрузка...'</>;
+    return <div className="loading">Загрузка...</div>;
   }
 
   return (
     <div className="container">
-      <img src={pizza?.imageUrl} alt={pizza?.name} />
+      <img src={pizza?.imageUrl} alt={pizza?.title} />
       <h2>{pizza?.title}</h2>
       <h4>{pizza?.price} ₽</h4>
     </div>
