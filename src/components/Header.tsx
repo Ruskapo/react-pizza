@@ -7,11 +7,11 @@ import Search from "./Search";
 function Header() {
   // Получение данных корзины из состояния Redux
   const { items, totalPrice } = useSelector(selectorCart);
-
+  // Получение текущего пути для условного отображения корзины
   const location = useLocation();
 
   // Вычисление общего количества товаров в корзине
-  const totalCount = items.reduce((sum, item) => sum + item.count, 0);
+  const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
 
   return (
     <div className="header">

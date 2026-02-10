@@ -7,7 +7,7 @@ import { selectorFilter } from "../redux/slices/filterSlice";
 
 import Categories from "../components/Categories";
 import Pagination from "../components/Pagination";
-import PizzaBlock from "../components/PizzaBlock/";
+import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Sort, { list } from "../components/Sort";
 import {
@@ -17,7 +17,7 @@ import {
 } from "../redux/slices/filterSlice";
 
 // Главная страница
-const Home = () => {
+const Home: React.FC = () => {
   // Инициализация навигации и диспетчера Redux
   const navigate = useNavigate();
   // Инициализация диспетчера Redux
@@ -32,12 +32,12 @@ const Home = () => {
     useSelector(selectorFilter);
 
   // Изменение категории
-  const onChangeCategory = (id) => {
-    dispatch(setCategoryId(id));
+  const onChangeCategory = (idx: number) => {
+    dispatch(setCategoryId(idx));
   };
 
   // Изменение страницы
-  const onChangePage = (numberPage) => {
+  const onChangePage = (numberPage: number) => {
     dispatch(setCurrentPage(numberPage));
   };
 
@@ -54,6 +54,7 @@ const Home = () => {
 
     // Диспетчеризация асинхронного действия для получения пицц
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         order,
         sortBy,
@@ -103,7 +104,7 @@ const Home = () => {
   }, [categoryId, sort.sortProperty, currentPage, navigate]);
 
   // Отрисовка пицц
-  const pizzas = itemsPizza.map((objPizz) => (
+  const pizzas = itemsPizza.map((objPizz: any) => (
     <PizzaBlock
       key={objPizz.id}
       id={objPizz.id}

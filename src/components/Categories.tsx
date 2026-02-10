@@ -1,5 +1,13 @@
+import React from "react";
+
+// Типы пропсов для компонента Categories
+type CategoriesProps = {
+  value: number;
+  onClickCategory: any;
+};
+
 // Компонент для отображения категорий пиццы
-function Categories({ value, onClickCategory }) {
+const Categories: React.FC<CategoriesProps> = ({ value, onClickCategory }) => {
   const categories = [
     "Все",
     "Мясные",
@@ -24,6 +32,6 @@ function Categories({ value, onClickCategory }) {
       </ul>
     </div>
   );
-}
+};
 
 export default Categories;

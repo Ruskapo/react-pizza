@@ -5,8 +5,25 @@ import { addItem, selectorCartItemById } from "../../redux/slices/cartSlice";
 
 const typeName = ["тонкое", "традиционное"];
 
+// Типизация пропсов для компонента PizzaBlock
+type PizzaBlockProps = {
+  id: string;
+  title: string;
+  price: number;
+  image: string;
+  sizes: number[];
+  types: number[];
+};
+
 // Компонент блока пиццы с возможностью выбора типа, размера и добавления в корзину
-function PizzaBlock({ id, title, price, image, sizes, types }) {
+const PizzaBlock: React.FC<PizzaBlockProps> = ({
+  id,
+  title,
+  price,
+  image,
+  sizes,
+  types,
+}) => {
   // Инициализация навигации
   const navigate = useNavigate();
   // Состояния для выбранного типа и размера пиццы
@@ -93,6 +110,6 @@ function PizzaBlock({ id, title, price, image, sizes, types }) {
       </div>
     </div>
   );
-}
+};
 
 export default PizzaBlock;

@@ -1,7 +1,9 @@
 import styles from "./NotFoundBlock.module.scss";
+import React from 'react'
+
 
 // Компонент для отображения страницы "Не найдено"
-const NotFoundBlock = () => {
+const NotFoundBlock: React.FC = () => {
   return (
     <div className={styles.root}>
       <h1>

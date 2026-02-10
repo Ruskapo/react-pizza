@@ -1,8 +1,28 @@
+import React from "react";
 import { useDispatch } from "react-redux";
 import { addItem, minusItem, removeItem } from "../redux/slices/cartSlice";
 
+// Типы пропсов для компонента CartItem
+type CartItemProps = {
+  id: string;
+  title: string;
+  type: string;
+  size: number;
+  price: number;
+  count: number;
+  imageUrl: string;
+};
+
 // Компонент элемента корзины
-const CartItem = ({ id, title, type, price, size, count, imageUrl }) => {
+const CartItem: React.FC<CartItemProps> = ({
+  id,
+  title,
+  type,
+  price,
+  size,
+  count,
+  imageUrl,
+}) => {
   const dispatch = useDispatch();
   const onClickPlus = () => {
     dispatch(

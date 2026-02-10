@@ -1,9 +1,18 @@
-import React from 'react'
+import React from "react";
 import ReactPaginate from "react-paginate";
-import styles from './pagination.module.scss'
+import styles from "./pagination.module.scss";
+
+// Типы для пропсов компонента пагинации
+type PaginationProps = {
+  currentPage: number;
+  onChangePage: any;
+};
 
 // Компонент пагинации для навигации по страницам
-const Pagination = ({ currentPage, onChangePage}) => {
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  onChangePage,
+}) => {
   return (
     <ReactPaginate
       className={styles.root}

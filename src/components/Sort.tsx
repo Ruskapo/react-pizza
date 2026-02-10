@@ -1,10 +1,15 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSort } from "../redux/slices/filterSlice";
-import { selectorSort } from "../redux/slices/filterSlice";
+import { selectorSort, setSort } from "../redux/slices/filterSlice";
+
+// Тип для элемента сортировки
+type SortItem = {
+  name: string;
+  sortProperty: string;
+};
 
 // Список вариантов сортировки
-export const list = [
+export const list: SortItem[] = [
   { name: "популярности (DESC)", sortProperty: "rating" },
   { name: "популярности (ASC)", sortProperty: "-rating" },
   { name: "цене (DESC)", sortProperty: "price" },
@@ -16,19 +21,19 @@ export const list = [
 // Компонент сортировки
 function Sort() {
   const dispatch = useDispatch();
-  const sort = useSelector(selectorSort)
+  const sort = useSelector(selectorSort);
   const [openSort, setOpenSort] = React.useState(false);
-  const sortRef = React.useRef(null);
+  const sortRef = React.useRef<HTMLDivElement>(null);
 
   // Выбор варианта сортировки
-  const onClickListItem = (obj) => {
+  const onClickListItem = (obj: SortItem) => {
     dispatch(setSort(obj));
     setOpenSort(false);
   };
 
   // Закрытие выпадающего списка при клике вне его области
   React.useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       if (sortRef.current && !sortRef.current.contains(event.target)) {
         setOpenSort(false);
       }

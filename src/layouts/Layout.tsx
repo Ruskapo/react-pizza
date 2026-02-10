@@ -1,8 +1,9 @@
+import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 
 // Расположение общего макета приложения
-const Layout = () => {
+const Layout: React.FC = () => {
   return (
     <div className="wrapper">
       <Header />

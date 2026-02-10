@@ -6,31 +6,31 @@ import { useDispatch } from "react-redux";
 import { setSearchValue } from "../../redux/slices/filterSlice";
 
 // Компонент поиска
-const Search = () => {
+const Search: React.FC = () => {
   // Инициализация диспетчера Redux
   const dispatch = useDispatch();
   // Локальное состояние для значения инпута
   const [value, setValue] = React.useState("");
   // Ссылка на элемент инпута
-  const inputRef = React.useRef();
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   // Обработчик очистки поля поиска
   const onClickClear = () => {
-   dispatch(setSearchValue(''));
+    dispatch(setSearchValue(""));
     setValue("");
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
 
   // Функция обновления значения поиска с дебаунсом
   const updateSearchValue = React.useCallback(
-    debounce((str) => {
+    debounce((str: string) => {
       dispatch(setSearchValue(str));
     }, 150),
     [],
   );
 
   // Обработчик изменения значения инпута
-  const onChangeInput = (event) => {
+  const onChangeInput = (event: any) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };
