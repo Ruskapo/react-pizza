@@ -3,20 +3,20 @@ import React from "react";
 // Типы пропсов для компонента Categories
 type CategoriesProps = {
   value: number;
-  onClickCategory: any;
+  onClickCategory: (idx: number) => void;
 };
+
+const categories = [
+  "Все",
+  "Мясные",
+  "Вегетарианская",
+  "Гриль",
+  "Острые",
+  "Закрытые",
+];
 
 // Компонент для отображения категорий пиццы
 const Categories: React.FC<CategoriesProps> = ({ value, onClickCategory }) => {
-  const categories = [
-    "Все",
-    "Мясные",
-    "Вегетарианская",
-    "Гриль",
-    "Острые",
-    "Закрытые",
-  ];
-
   return (
     <div className="categories">
       <ul>

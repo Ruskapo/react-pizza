@@ -1,9 +1,8 @@
 import debounce from "lodash.debounce";
 import React from "react";
-import styles from "./search.module.scss";
-
 import { useDispatch } from "react-redux";
 import { setSearchValue } from "../../redux/slices/filterSlice";
+import styles from "./search.module.scss";
 
 // Компонент поиска
 const Search: React.FC = () => {
@@ -15,7 +14,8 @@ const Search: React.FC = () => {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   // Обработчик очистки поля поиска
-  const onClickClear = () => {
+  const onClickClear = (event: React.MouseEvent<SVGSVGElement>) => {
+    console.log(event);
     dispatch(setSearchValue(""));
     setValue("");
     inputRef.current?.focus();
@@ -30,10 +30,12 @@ const Search: React.FC = () => {
   );
 
   // Обработчик изменения значения инпута
-  const onChangeInput = (event: any) => {
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };
+
+  
   return (
     <div className={styles.root}>
       <svg

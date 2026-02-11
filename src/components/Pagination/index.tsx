@@ -5,7 +5,7 @@ import styles from "./pagination.module.scss";
 // Типы для пропсов компонента пагинации
 type PaginationProps = {
   currentPage: number;
-  onChangePage: any;
+  onChangePage: (page: number) => void;
 };
 
 // Компонент пагинации для навигации по страницам
