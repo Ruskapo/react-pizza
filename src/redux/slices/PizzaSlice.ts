@@ -1,22 +1,52 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { RootState } from "../store";
+
+export type SearchPizzaParams = {
+  sortBy: string;
+  order: string;
+  category: string;
+  search: string;
+  currentPage: string;
+};
 
 // Асинхронный thunk для получения данных о пиццах
-export const fetchPizzas = createAsyncThunk(
+export const fetchPizzas = createAsyncThunk<Pizza[], SearchPizzaParams>(
   "pizza/fetchPizzasStatus",
-  async (params, thunkAPI) => {
+  async (params) => {
     const { order, sortBy, category, search, currentPage } = params;
-    const { data } = await axios.get(
+    const { data } = await axios.get<Pizza[]>(
       `https://69344d6a4090fe3bf01f91ec.mockapi.io/items?page=${currentPage}&limit=4${category}&sortBy=${sortBy}&order=${order}${search}`,
     );
     return data;
   },
 );
 
+type Pizza = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  sizes: number[];
+  types: number[];
+  reting: number;
+};
+
+export enum Status {
+  LOAGING = "loading",
+  SUCCESS = "success",
+  ERROR = "error",
+}
+
+interface PizzaSliceState {
+  items: Pizza[];
+  status: Status;
+}
+
 // Начальное состояние слайса пицц
-const initialState = {
+const initialState: PizzaSliceState = {
   items: [],
-  status: "loading", // 'loading' | 'success' | 'error'
+  status: Status.LOAGING, // 'loading' | 'success' | 'error'
 };
 
 // Создание слайса пицц
@@ -24,7 +54,7 @@ const pizzaSlice = createSlice({
   name: "pizza",
   initialState,
   reducers: {
-    setItems(state, action) {
+    setItems(state, action: PayloadAction<Pizza[]>) {
       state.items = action.payload;
     },
   },
@@ -34,22 +64,22 @@ const pizzaSlice = createSlice({
     builder
 
       .addCase(fetchPizzas.pending, (state) => {
-        state.status = "loading";
+        state.status = Status.LOAGING;
         state.items = [];
       })
       .addCase(fetchPizzas.fulfilled, (state, action) => {
         state.items = action.payload;
-        state.status = "success";
+        state.status = Status.SUCCESS;
       })
       .addCase(fetchPizzas.rejected, (state) => {
-        state.status = "error";
+        state.status = Status.ERROR;
         state.items = [];
       });
   },
 });
 
 // Селектор для получения данных о пиццах из состояния
-export const selectPizzaData = (state) => state.pizza;
+export const selectPizzaData = (state: RootState) => state.pizza;
 
 // Экспорт действий и редьюсера
 export const { setItems } = pizzaSlice.actions;

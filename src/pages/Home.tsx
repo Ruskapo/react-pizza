@@ -1,27 +1,31 @@
 import qs from "qs";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchPizzas, selectPizzaData } from "../redux/slices/PizzaSlice";
-import { selectorFilter } from "../redux/slices/filterSlice";
-
 import Categories from "../components/Categories";
 import Pagination from "../components/Pagination";
 import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Sort, { list } from "../components/Sort";
 import {
+  fetchPizzas,
+  SearchPizzaParams,
+  selectPizzaData,
+} from "../redux/slices/PizzaSlice";
+import {
+  selectorFilter,
   setCategoryId,
   setCurrentPage,
   setFilters,
 } from "../redux/slices/filterSlice";
+import { useAppDispatch } from "../redux/store";
 
 // Главная страница
 const Home: React.FC = () => {
   // Инициализация навигации и диспетчера Redux
   const navigate = useNavigate();
   // Инициализация диспетчера Redux
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   // Рефы для отслеживания первого рендера и поиска в URL
   const isSearch = React.useRef(false);
   // Реф для отслеживания монтирования компонента
@@ -54,13 +58,12 @@ const Home: React.FC = () => {
 
     // Диспетчеризация асинхронного действия для получения пицц
     dispatch(
-      // @ts-ignore
       fetchPizzas({
         order,
         sortBy,
         category,
         search,
-        currentPage,
+        currentPage: String(currentPage),
       }),
     );
   };
@@ -68,16 +71,20 @@ const Home: React.FC = () => {
   // Получаем параметры из URL при первом рендере
   React.useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
-      const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
+      const params = qs.parse(
+        window.location.search.substring(1),
+      ) as unknown as SearchPizzaParams;
+      const sort = list.find((obj) => obj.sortProperty === params.sortBy);
 
       dispatch(
         setFilters({
-          ...params,
-          sort,
+          searchValue: params.search,
+          categoryId: Number(params.category),
+          currentPage: Number(params.currentPage),
+          sort: sort || list[0],
         }),
       );
-      isSearch.current = true;
+        isSearch.current = true;
     }
   }, []);
 

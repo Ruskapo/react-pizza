@@ -1,7 +1,23 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../store";
+
+export type CartItem = {
+  id: string;
+  title: string;
+  type: string;
+  size: number;
+  price: number;
+  imageUrl: string;
+  count: number;
+};
+
+interface CartSliceState {
+  totalPrice: number;
+  items: CartItem[];
+}
 
 // Начальное состояние корзины
-const initialState = {
+const initialState: CartSliceState = {
   items: [],
   totalPrice: 0,
 };
@@ -12,8 +28,9 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     // Добавление товара в корзину с проверкой на существование
-    addItem(state, action) {
+    addItem(state, action: PayloadAction<CartItem>) {
       const findItem = state.items.find((obj) => obj.id === action.payload.id);
+
       if (findItem) {
         findItem.count++;
       } else {
@@ -30,8 +47,8 @@ const cartSlice = createSlice({
     },
 
     // Уменьшение количества товара в корзине по ID
-    minusItem(state, action) {
-      state.items = state.items.filter((obj) => obj.count !== 0)
+    minusItem(state, action: PayloadAction<string>) {
+      state.items = state.items.filter((obj) => obj.count !== 0);
       const findItem = state.items.find((obj) => obj.id === action.payload);
       if (findItem) {
         findItem.count--;
@@ -39,7 +56,7 @@ const cartSlice = createSlice({
     },
 
     // Удаление товара из корзины по ID
-    removeItem(state, action) {
+    removeItem(state, action: PayloadAction<string>) {
       state.items = state.items.filter((obj) => obj.id !== action.payload);
     },
 
@@ -51,8 +68,8 @@ const cartSlice = createSlice({
 });
 
 // Селектор для получения данных корзины из состояния Redux
-export const selectorCart = (state) => state.cart;
-export const selectorCartItemById = (id) => (state) =>
+export const selectorCart = (state: RootState) => state.cart;
+export const selectorCartItemById = (id: string) => (state: RootState) =>
   state.cart.items.find((obj) => obj.id === id);
 
 // Экспорт действий и редьюсера

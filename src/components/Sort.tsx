@@ -1,25 +1,29 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectorSort, setSort } from "../redux/slices/filterSlice";
+import {
+  selectorSort,
+  setSort,
+  SortpropertyEnum,
+} from "../redux/slices/filterSlice";
 
 // Тип для элемента сортировки
 type SortItem = {
   name: string;
-  sortProperty: string;
+  sortProperty: SortpropertyEnum;
 };
 
 // Список вариантов сортировки
 export const list: SortItem[] = [
-  { name: "популярности (DESC)", sortProperty: "rating" },
-  { name: "популярности (ASC)", sortProperty: "-rating" },
-  { name: "цене (DESC)", sortProperty: "price" },
-  { name: "цене (ASC)", sortProperty: "-price" },
-  { name: "алфавиту (DESC)", sortProperty: "title" },
-  { name: "алфавиту (ASC)", sortProperty: "-title" },
+  { name: "популярности (DESC)", sortProperty: SortpropertyEnum.RATING_DESC },
+  { name: "популярности (ASC)", sortProperty: SortpropertyEnum.RATING_ASC },
+  { name: "цене (DESC)", sortProperty: SortpropertyEnum.PRICE_DESC },
+  { name: "цене (ASC)", sortProperty: SortpropertyEnum.RATING_ASC },
+  { name: "алфавиту (DESC)", sortProperty: SortpropertyEnum.TITLE_DESC },
+  { name: "алфавиту (ASC)", sortProperty: SortpropertyEnum.TITLE_ASC },
 ];
 
 // Компонент сортировки
-function Sort() {
+function SortPopup() {
   const dispatch = useDispatch();
   const sort = useSelector(selectorSort);
   const [openSort, setOpenSort] = React.useState(false);
@@ -34,10 +38,9 @@ function Sort() {
   // Закрытие выпадающего списка при клике вне его области
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      const _event = event as MouseEvent & {
-        path: Node[];
-      };
-      if (sortRef.current && !_event.path.includes(sortRef.current)) {
+      const path = event.composedPath();
+
+      if (sortRef.current && !path.includes(sortRef.current)) {
         setOpenSort(false);
       }
     };
@@ -89,4 +92,4 @@ function Sort() {
   );
 }
 
-export default Sort;
+export default SortPopup;

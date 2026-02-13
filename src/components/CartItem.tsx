@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { addItem, minusItem, removeItem } from "../redux/slices/cartSlice";
+import { addItem, CartItem, minusItem, removeItem } from "../redux/slices/cartSlice";
 
 // Типы пропсов для компонента CartItem
 type CartItemProps = {
@@ -14,7 +14,7 @@ type CartItemProps = {
 };
 
 // Компонент элемента корзины
-const CartItem: React.FC<CartItemProps> = ({
+const CartItemBlcok: React.FC<CartItemProps> = ({
   id,
   title,
   type,
@@ -28,7 +28,7 @@ const CartItem: React.FC<CartItemProps> = ({
     dispatch(
       addItem({
         id,
-      }),
+      } as  CartItem),
     );
   };
 
@@ -132,4 +132,4 @@ const CartItem: React.FC<CartItemProps> = ({
   );
 };
 
-export default CartItem;
+export default CartItemBlcok ;
