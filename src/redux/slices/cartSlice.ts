@@ -72,6 +72,7 @@ export const selectorCart = (state: RootState) => state.cart;
 export const selectorCartItemById = (id: string) => (state: RootState) =>
   state.cart.items.find((obj) => obj.id === id);
 
+
 // Экспорт действий и редьюсера
 export const { addItem, removeItem, minusItem, clearItems } = cartSlice.actions;
 export default cartSlice.reducer;

@@ -19,6 +19,7 @@ import {
   setFilters,
 } from "../redux/slices/filterSlice";
 import { useAppDispatch } from "../redux/store";
+import { Value } from "sass";
 
 // Главная страница
 const Home: React.FC = () => {
@@ -36,9 +37,9 @@ const Home: React.FC = () => {
     useSelector(selectorFilter);
 
   // Изменение категории
-  const onChangeCategory = (idx: number) => {
+  const onChangeCategory = React.useCallback((idx: number) => {
     dispatch(setCategoryId(idx));
-  };
+  }, []);
 
   // Изменение страницы
   const onChangePage = (numberPage: number) => {
@@ -132,7 +133,7 @@ const Home: React.FC = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onClickCategory={onChangeCategory} />
-        <Sort />
+        <Sort value={sort} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === "error" ? (
