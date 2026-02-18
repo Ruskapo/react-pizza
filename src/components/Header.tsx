@@ -1,6 +1,8 @@
+import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { selectorCart } from "../redux/slices/cartSlice";
+
+import { selectorCart } from "../redux/cart/selector";
 import Search from "./Search";
 
 // Компонент шапки сайта с логотипом, поиском и корзиной
@@ -9,9 +11,21 @@ function Header() {
   const { items, totalPrice } = useSelector(selectorCart);
   // Получение текущего пути для условного отображения корзины
   const location = useLocation();
+  const isMounted = React.useRef(false);
 
   // Вычисление общего количества товаров в корзине
-  const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0);
+  const totalCount = items.reduce(
+    (sum: number, item: any) => sum + item.count,
+    0,
+  );
+
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const json = JSON.stringify(items);
+      localStorage.setItem("cart", json);
+    }
+    isMounted.current = true;
+  }, [items]);
 
   return (
     <div className="header">
@@ -25,7 +39,7 @@ function Header() {
             </div>
           </div>
         </Link>
-       {location.pathname !== '/cart' && <Search />}
+        {location.pathname !== "/cart" && <Search />}
         <div className="header__cart">
           {location.pathname !== "/cart" && (
             <Link to="/cart" className="button button--cart">

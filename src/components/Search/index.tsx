@@ -1,7 +1,8 @@
 import debounce from "lodash.debounce";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setSearchValue } from "../../redux/slices/filterSlice";
+
+import { setSearchValue } from "../../redux/filter/selector";
 import styles from "./search.module.scss";
 
 // Компонент поиска
@@ -35,7 +36,6 @@ const Search: React.FC = () => {
     updateSearchValue(event.target.value);
   };
 
-  
   return (
     <div className={styles.root}>
       <svg

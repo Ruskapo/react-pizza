@@ -1,25 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { CartItem, CartSliceState } from "./types";
+import { calcTotalPrice } from "../../utils/calcTotalPrice";
+import { getCartLocalStorage } from "../../utils/getCartLocalStorage";
 
-export type CartItem = {
-  id: string;
-  title: string;
-  type: string;
-  size: number;
-  price: number;
-  imageUrl: string;
-  count: number;
-};
-
-interface CartSliceState {
-  totalPrice: number;
-  items: CartItem[];
-}
+const { items, totalPrice } = getCartLocalStorage();
 
 // Начальное состояние корзины
 const initialState: CartSliceState = {
-  items: [],
-  totalPrice: 0,
+  items,
+  totalPrice,
 };
 
 // Слайс для корзины
@@ -40,12 +29,8 @@ const cartSlice = createSlice({
         });
       }
 
-      // Пересчет общей цены
-      state.totalPrice = state.items.reduce((sum, obj) => {
-        return obj.price * obj.count + sum;
-      }, 0);
+      state.totalPrice = calcTotalPrice(state.items);
     },
-
     // Уменьшение количества товара в корзине по ID
     minusItem(state, action: PayloadAction<string>) {
       state.items = state.items.filter((obj) => obj.count !== 0);
@@ -67,12 +52,7 @@ const cartSlice = createSlice({
   },
 });
 
-// Селектор для получения данных корзины из состояния Redux
-export const selectorCart = (state: RootState) => state.cart;
-export const selectorCartItemById = (id: string) => (state: RootState) =>
-  state.cart.items.find((obj) => obj.id === id);
-
-
 // Экспорт действий и редьюсера
 export const { addItem, removeItem, minusItem, clearItems } = cartSlice.actions;
 export default cartSlice.reducer;
+

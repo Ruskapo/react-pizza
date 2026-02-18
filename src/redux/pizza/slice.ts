@@ -1,14 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { RootState } from "../store";
-
-export type SearchPizzaParams = {
-  sortBy: string;
-  order: string;
-  category: string;
-  search: string;
-  currentPage: string;
-};
+import { Pizza, PizzaSliceState, SearchPizzaParams, Status } from "./types";
 
 // Асинхронный thunk для получения данных о пиццах
 export const fetchPizzas = createAsyncThunk<Pizza[], SearchPizzaParams>(
@@ -21,27 +13,6 @@ export const fetchPizzas = createAsyncThunk<Pizza[], SearchPizzaParams>(
     return data;
   },
 );
-
-type Pizza = {
-  id: string;
-  title: string;
-  price: number;
-  imageUrl: string;
-  sizes: number[];
-  types: number[];
-  reting: number;
-};
-
-export enum Status {
-  LOAGING = "loading",
-  SUCCESS = "success",
-  ERROR = "error",
-}
-
-interface PizzaSliceState {
-  items: Pizza[];
-  status: Status;
-}
 
 // Начальное состояние слайса пицц
 const initialState: PizzaSliceState = {
@@ -77,9 +48,6 @@ const pizzaSlice = createSlice({
       });
   },
 });
-
-// Селектор для получения данных о пиццах из состояния
-export const selectPizzaData = (state: RootState) => state.pizza;
 
 // Экспорт действий и редьюсера
 export const { setItems } = pizzaSlice.actions;

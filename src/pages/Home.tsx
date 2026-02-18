@@ -7,19 +7,17 @@ import Pagination from "../components/Pagination";
 import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import Sort, { list } from "../components/Sort";
-import {
-  fetchPizzas,
-  SearchPizzaParams,
-  selectPizzaData,
-} from "../redux/slices/PizzaSlice";
+
 import {
   selectorFilter,
   setCategoryId,
   setCurrentPage,
   setFilters,
-} from "../redux/slices/filterSlice";
+} from "../redux/filter/selector";
+import { selectPizzaData } from "../redux/pizza/selector";
+import { fetchPizzas } from "../redux/pizza/slice";
+import { SearchPizzaParams } from "../redux/pizza/types";
 import { useAppDispatch } from "../redux/store";
-import { Value } from "sass";
 
 // Главная страница
 const Home: React.FC = () => {
@@ -85,7 +83,7 @@ const Home: React.FC = () => {
           sort: sort || list[0],
         }),
       );
-        isSearch.current = true;
+      isSearch.current = true;
     }
   }, []);
 
