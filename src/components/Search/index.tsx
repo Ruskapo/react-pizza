@@ -1,7 +1,6 @@
 import debounce from "lodash.debounce";
 import React from "react";
 import { useDispatch } from "react-redux";
-
 import { setSearchValue } from "../../redux/filter/selector";
 import styles from "./search.module.scss";
 
@@ -15,20 +14,26 @@ const Search: React.FC = () => {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   // Обработчик очистки поля поиска
-  const onClickClear = (event: React.MouseEvent<SVGSVGElement>) => {
-    console.log(event);
+  const onClickClear = () => {
     dispatch(setSearchValue(""));
     setValue("");
     inputRef.current?.focus();
   };
 
-  // Функция обновления значения поиска с дебаунсом
-  const updateSearchValue = React.useCallback(
-    debounce((str: string) => {
-      dispatch(setSearchValue(str));
-    }, 150),
-    [],
+  // Дебаунс для обновления значения поиска в Redux
+  const updateSearchValue = React.useMemo(
+    () =>
+      debounce((str: string) => {
+        dispatch(setSearchValue(str));
+      }, 150),
+    [dispatch],
   );
+  // Очистка дебаунса при размонтировании компонента
+  React.useEffect(() => {
+    return () => {
+      updateSearchValue.cancel();
+    };
+  }, [updateSearchValue]);
 
   // Обработчик изменения значения инпута
   const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {

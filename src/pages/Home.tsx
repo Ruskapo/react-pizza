@@ -35,9 +35,12 @@ const Home: React.FC = () => {
     useSelector(selectorFilter);
 
   // Изменение категории
-  const onChangeCategory = React.useCallback((idx: number) => {
-    dispatch(setCategoryId(idx));
-  }, []);
+  const onChangeCategory = React.useCallback(
+    (idx: number) => {
+      dispatch(setCategoryId(idx));
+    },
+    [dispatch],
+  );
 
   // Изменение страницы
   const onChangePage = (numberPage: number) => {
@@ -89,7 +92,7 @@ const Home: React.FC = () => {
       );
       isSearch.current = true;
     }
-  }, []);
+  }, [dispatch]);
 
   // Сохраняем параметры в URL
   React.useEffect(() => {
