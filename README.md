@@ -47,8 +47,7 @@
 
 ## Приложение будет доступно по адресу:
 
-http://localhost:3000
-
+https://react-pizza-otkj.vercel.app
 
 ## Запуск проекта
 
