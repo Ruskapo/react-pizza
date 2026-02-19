@@ -44,18 +44,20 @@ const Home: React.FC = () => {
     dispatch(setCurrentPage(numberPage));
   };
 
-  // Получение пицц с сервера
-  const getPizzas = async () => {
-    // Формирование параметров запроса
+  // Получение пицц при изменении параметров
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+
+    if (isSearch.current) {
+      isSearch.current = false;
+      return;
+    }
+
     const order = sort.sortProperty.includes("-") ? "asc" : "desc";
-    // Удаление минуса из свойства сортировки
     const sortBy = sort.sortProperty.replace("-", "");
-    // Категория
     const category = categoryId > 0 ? `&category=${categoryId}` : "";
-    // Поиск
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    // Диспетчеризация асинхронного действия для получения пицц
     dispatch(
       fetchPizzas({
         order,
@@ -65,7 +67,9 @@ const Home: React.FC = () => {
         currentPage: String(currentPage),
       }),
     );
-  };
+
+    isSearch.current = false;
+  }, [sort.sortProperty, categoryId, searchValue, currentPage, dispatch]);
 
   // Получаем параметры из URL при первом рендере
   React.useEffect(() => {
@@ -74,7 +78,7 @@ const Home: React.FC = () => {
         window.location.search.substring(1),
       ) as unknown as SearchPizzaParams;
       const sort = list.find((obj) => obj.sortProperty === params.sortBy);
-
+      // Диспетчеризация действия для установки фильтров из URL
       dispatch(
         setFilters({
           searchValue: params.search,
@@ -86,15 +90,6 @@ const Home: React.FC = () => {
       isSearch.current = true;
     }
   }, []);
-
-  // Ререндер пицц при изменении категорий, сортировки, поиска и страницы
-  React.useEffect(() => {
-    window.scrollTo(0, 0);
-    // if (!isSearch.current) {
-    getPizzas();
-    //}
-    isSearch.current = false;
-  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
   // Сохраняем параметры в URL
   React.useEffect(() => {
